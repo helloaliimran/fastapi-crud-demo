@@ -12,7 +12,11 @@ from app.schemas.product import (
     ProductUpdate,
     ProductResponse
 )
-from app.services import product_service
+from app.schemas.chat import (
+    ChatRequest,
+    ChatResponse
+)
+from app.services import chat_service, product_service
 
 router = APIRouter(
     prefix="/products",
@@ -71,3 +75,11 @@ async def delete_product(product_id: int,
 
     await product_service.delete_product(
         session, product_id)
+
+
+# ---------------------------------------------------------------------------
+# Single public endpoint
+# ---------------------------------------------------------------------------
+@router.post("/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    return await chat_service.chat(request)
